@@ -10,6 +10,7 @@ namespace ConsoleApplication2
         private Random r = new Random();
         private static int balance = 0;
         private static readonly Bank p_bank = new Bank();
+        private static object lockObj = new object();
         private Bank() { }
         public static Bank GetInstance()
         {
@@ -20,7 +21,7 @@ namespace ConsoleApplication2
         {
             while (true)
             {
-                lock (this)
+                lock (lockObj)
                 {
                     int amount = r.Next(1, 10);
                     balance += amount;
@@ -33,7 +34,7 @@ namespace ConsoleApplication2
         {
             while (true)
             {
-                lock (this)
+                lock (lockObj)
                 {
                     int amount = r.Next(1, 10);
                     if ((balance - amount) >= 0)
